@@ -9,7 +9,7 @@ import scienceplots
 import tol_colors as tc
 import numpy as np
 plt.style.reload_library()
-plt.style.use("science")
+plt.style.use("classic")
 
 def plotLoss(loss_log):
     """
@@ -56,7 +56,7 @@ def plotPerfRadar(df, optmodels):
         if type(df.at[i,"MSE"]) is list:
             df.at[i,"MSE"] = np.mean(df.at[i,"MSE"])
     # tol color
-    colors = {"mse": "#332288", "separated":"#88ccee", "separated+mse":"#44aa99",
+    colors = {"our": "#5324b8", "mse": "#332288", "separated":"#88ccee", "separated+mse":"#44aa99",
               "comb": "#117733", "comb+mse": "#999933", "gradnorm": "#ddcc77",
               "gradnorm+mse":"#cc6677"}
     # categories

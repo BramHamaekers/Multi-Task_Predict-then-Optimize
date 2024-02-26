@@ -39,12 +39,12 @@ def run(data_params, task_params, train_params):
     if train_params["algo"] == "spo":
         print("Using SPO+...")
         train_algos = {
-        "mse": train.knapsack.spo.our_train2S,
+        # "mse": train.knapsack.spo.our_train2S,
         # "mse": train.knapsack.spo.train2S, # 2-stage
-        "separated+ms": train.knapsack.spo.our_trainSeperatedMSE, # separated with mse
+        "separated+mse": train.knapsack.spo.our_trainSeperatedMSE, # separated with mse
         # "separated+mse": train.knapsack.spo.trainSeparatedMSE, # separated with mse
-        # "comb+mse": train.knapsack.spo.trainCombMSE, # simple combination with mse
-        # "gradnorm+mse": train.knapsack.spo.trainGradNormMSE, # GradNorm with mse
+        "comb+mse": train.knapsack.spo.trainCombMSE, # simple combination with mse
+        "gradnorm+mse": train.knapsack.spo.trainGradNormMSE, # GradNorm with mse
         }
     if  train_params["algo"] == "pfyl":
         print("Using PFYL...")
@@ -308,11 +308,11 @@ if __name__ == "__main__":
     # data configuration
     parser.add_argument("--item",
                         type=int,
-                        default=30,
+                        default=300,
                         help="number of items")
     parser.add_argument("--data",
                         type=int,
-                        default=100,
+                        default=1000,
                         help="training data size")
     parser.add_argument("--feat",
                         type=int,
@@ -345,7 +345,7 @@ if __name__ == "__main__":
                         help="training algorithm")
     parser.add_argument("--iter",
                         type=int,
-                        default=30000,
+                        default=1200,
                         help="max iterations")
     parser.add_argument("--batch",
                         type=int,
@@ -365,7 +365,7 @@ if __name__ == "__main__":
                         help="GradNorm hyperparameter of restoring force")
     parser.add_argument("--proc",
                         type=int,
-                        default=1,
+                        default=3,
                         help="number of processor for optimization")
 
     # get configuration

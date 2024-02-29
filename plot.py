@@ -8,6 +8,8 @@ from matplotlib import pyplot as plt
 import scienceplots
 import tol_colors as tc
 import numpy as np
+import pandas as pd
+
 plt.style.reload_library()
 plt.style.use("classic")
 
@@ -160,3 +162,25 @@ def plotMultiCostPerfRadar(df, config):
             plt.text(theta, y-0.02, text, fontsize=12)
     plt.legend(fontsize=12, bbox_to_anchor=(1, 0.5))
     return fig
+
+def plotPerfTable(df, optmodels):
+    """
+    Generate a table for the spider plots.
+    """
+    for i in df.index:
+        if type(df.at[i,"MSE"]) is list:
+            df.at[i,"MSE"] = np.mean(df.at[i,"MSE"])
+    table = pd.DataFrame(columns=["Strategy", "Tasks", "Value"]) #Strategy noemen ze het in de paper, Method in de code
+    for i in df.index:
+        method = df.at[i, "Method"]
+        for task in optmodels:
+            colname = "{} Avg Regret".format(task)
+            regret = df.at[i, colname] / np.ceil(df[colname].abs().max())
+            new_row = pd.DataFrame({"Strategy": [method], "Tasks": ["Regret {}".format(task)], "Value": [regret]})
+            table = pd.concat([table, new_row], ignore_index=True)
+        mse = df.at[i,"MSE"] / np.ceil(df["MSE"].abs().max())
+        mse = round(mse, 2) #de andere waardes waren ook afgerond op 2
+        new_row = pd.DataFrame({"Strategy": [method], "Tasks": ["MSE"], "Value": [mse]})
+        table = pd.concat([table, new_row], ignore_index=True)
+    #print(table)
+    return table

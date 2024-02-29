@@ -10,6 +10,7 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+import seaborn as sns
 
 # random seed
 random.seed(135)
@@ -82,6 +83,7 @@ def run(data_params, task_params, train_params):
     saveRes(res_dir, df, inst_res)
     print()
     print()
+    saveTableFig(res_dir, df, optmodels)
 
   
 
@@ -281,12 +283,47 @@ def saveRes(res_dir, df, inst_res):
             inst_res[method][task].to_csv(res_path)
             print("Save results to " + res_path)
 
+def saveTableFig(res_dir, df, optmodels):
+    """
+    Generate and save a PNG of the table.
+    """
+    table = plot.plotPerfTable(df, optmodels)
+    fig, ax = plt.subplots(figsize=(10, 8))
+
+    ax.axis('off')
+    ax.table(colLabels=table.columns, cellText=table.values, loc='center', cellLoc='left')
+    #ax.set_title('Performance Comparison', fontsize=14, fontweight='bold')
+    ax.set_xlabel('Strategy', labelpad=10, fontsize=10)
+    ax.set_ylabel('Tasks', labelpad=10, fontsize=10)
+    plt.xticks(rotation=45, ha='right')
+    ax.axis('tight')
+
+    dir = res_dir + "/table.png"
+    fig.savefig(dir, dpi=300, bbox_inches='tight')
+    print("Saved table for performance to", dir)
+
+    plt.close(fig)
+
+    plot_heatmap(res_dir, table)
+
+
+def plot_heatmap(res_dir, table):
+    pivot_table = table.pivot(index='Strategy', columns='Tasks', values='Value')
+
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(pivot_table, annot=True, cmap='YlGnBu')
+    dir = res_dir + "/heatmap.png"
+    plt.savefig(dir, dpi=300, bbox_inches='tight')
+    print("Saved heatmap to", dir)
+
+    plt.close()
+
 def genDataLoader(x, c, optmodels, train_params):
     """
     Set data loader with solving optimal solutions
     """
     # data split
-    x_train, x_test, c_train, c_test = train_test_split(x, c, test_size=1000, random_state=135)
+    x_train, x_test, c_train, c_test = train_test_split(x, c, test_size=100, random_state=135)
     x_train, x_val, c_train, c_val = train_test_split(x_train, c_train, test_size=100, random_state=246)
     # dataset
     dataset_train, dataset_val, dataset_test = data.buildDataset(x_train, x_val,
@@ -308,15 +345,15 @@ if __name__ == "__main__":
     # data configuration
     parser.add_argument("--item",
                         type=int,
-                        default=300,
+                        default=5,
                         help="number of items")
     parser.add_argument("--data",
                         type=int,
-                        default=1000,
+                        default=10,
                         help="training data size")
     parser.add_argument("--feat",
                         type=int,
-                        default=10,
+                        default=5,
                         help="feature size")
     parser.add_argument("--deg",
                         type=int,

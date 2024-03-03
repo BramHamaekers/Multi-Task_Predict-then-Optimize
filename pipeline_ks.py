@@ -324,7 +324,7 @@ def genDataLoader(x, c, optmodels, train_params):
     Set data loader with solving optimal solutions
     """
     # data split
-    x_train, x_test, c_train, c_test = train_test_split(x, c, test_size=1000, random_state=135)
+    x_train, x_test, c_train, c_test = train_test_split(x, c, test_size=100, random_state=135)
     x_train, x_val, c_train, c_val = train_test_split(x_train, c_train, test_size=100, random_state=246)
     # dataset
     dataset_train, dataset_val, dataset_test = data.buildDataset(x_train, x_val,

@@ -175,7 +175,7 @@ def plotPerfTable(df, optmodels):
         method = df.at[i, "Method"]
         for task in optmodels:
             colname = "{} Avg Regret".format(task)
-            regret = df.at[i, colname] / np.ceil(df[colname].abs().max())
+            regret = round(df.at[i, colname] / np.ceil(df[colname].abs().max()), 2) #soms waren de afrondingen niet mooi
             new_row = pd.DataFrame({"Strategy": [method], "Tasks": ["Regret {}".format(task)], "Value": [regret]})
             table = pd.concat([table, new_row], ignore_index=True)
         mse = df.at[i,"MSE"] / np.ceil(df["MSE"].abs().max())

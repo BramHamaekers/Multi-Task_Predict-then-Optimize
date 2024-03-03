@@ -50,9 +50,9 @@ def run(data_params, task_params, train_params):
     if  train_params["algo"] == "pfyl":
         print("Using PFYL...")
         train_algos = {
-        "separated": train.knapsack.pfyl.trainSeparated, # separated
-        "comb": train.knapsack.pfyl.trainComb, # simple combination
-        "gradnorm": train.knapsack.pfyl.trainGradNorm, # GradNorm
+        "separated": train.knapsack.pfyl.our_trainSeparated, # separated
+        "comb": train.knapsack.pfyl.our_trainComb, # simple combination
+        "gradnorm": train.knapsack.pfyl.our_trainGradNorm, # GradNorm
         }
     # init df for total evaluation
     df = []
@@ -304,10 +304,10 @@ def saveTableFig(res_dir, df, optmodels):
 
     plt.close(fig)
 
-    plot_heatmap(res_dir, table)
+    plotHeatmap(res_dir, table)
 
 
-def plot_heatmap(res_dir, table):
+def plotHeatmap(res_dir, table):
     pivot_table = table.pivot(index='Strategy', columns='Tasks', values='Value')
 
     plt.figure(figsize=(10, 8))
@@ -345,15 +345,15 @@ if __name__ == "__main__":
     # data configuration
     parser.add_argument("--item",
                         type=int,
-                        default=5,
+                        default=30,
                         help="number of items")
     parser.add_argument("--data",
                         type=int,
-                        default=10,
+                        default=100,
                         help="training data size")
     parser.add_argument("--feat",
                         type=int,
-                        default=5,
+                        default=10,
                         help="feature size")
     parser.add_argument("--deg",
                         type=int,

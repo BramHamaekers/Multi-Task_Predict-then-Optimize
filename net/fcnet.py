@@ -84,8 +84,8 @@ class mtlPFYL(nn.Module):
         self.net = net
         # init SPO+ loss
         self.pfyl = nn.ModuleList([])
-        for solver in solvers:
-            self.pfyl.append(perturbedFenchelYoung(solver, n_samples=n_samples, epsilon=epsilon, processes=processes))
+        for solver in solvers: # epsilon naar sigma hernoemd
+            self.pfyl.append(perturbedFenchelYoung(solver, n_samples=n_samples, sigma=epsilon, processes=processes))
 
     def forward(self, x, c, w, z):
         cp = self.net(x)

@@ -92,6 +92,7 @@ def getDir(data_params, task_params, train_params):
     """
     Get dir to save figure and result
     """
+    i = data_params["item"] # number of items
     n = data_params["data"] # number of data
     p = data_params["feat"] # size of feature
     deg = data_params["deg"] # polynomial degree
@@ -99,10 +100,10 @@ def getDir(data_params, task_params, train_params):
     n_multi = task_params["n_multi"] # number of mutli tasks
     algo = train_params["algo"] # training algo
     # logs
-    log_dir = "./log/{}single{}multi/{}/n{}p{}deg{}".format(n_single, n_multi, algo, n, p, deg)
+    log_dir = "./log/{}single{}multi/{}/i{}n{}p{}deg{}".format(n_single, n_multi, algo, i, n, p, deg)
     os.makedirs(log_dir, exist_ok=True)
     # results
-    res_dir = "./res/{}single{}multi/{}/n{}p{}deg{}".format(n_single, n_multi, algo, n, p, deg)
+    res_dir = "./res/{}single{}multi/{}/i{}n{}p{}deg{}".format(n_single, n_multi, algo, i, n, p, deg)
     os.makedirs(res_dir, exist_ok=True)
     return log_dir, res_dir
 
@@ -402,7 +403,7 @@ if __name__ == "__main__":
                         help="GradNorm hyperparameter of restoring force")
     parser.add_argument("--proc",
                         type=int,
-                        default=3,
+                        default=5,
                         help="number of processor for optimization")
 
     # get configuration

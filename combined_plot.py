@@ -1,6 +1,7 @@
 # file for plotting the data from the csv files in the different folders
 import os
 import csv
+from matplotlib import ticker
 import pandas as pd
 import matplotlib.pyplot as plt
 import re
@@ -43,21 +44,36 @@ def get_average_regret(filename):
     return average/rows
 
 
-def plot_data(data, title, x_label, y_label, out):
-    plt.figure(figsize=(10, 6))
-    for key in data.keys():
-        plt.plot(n_range, data[key], label=key)
-    plt.xlabel(x_label)
-    plt.ylabel(y_label)
-    plt.title(title)
-    plt.legend()
-    plt.grid(True)
-    plt.savefig(out)
+def plot_data(data, title, x_label, y_label, out, min_val, max_val):
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # Plot the data
+    for strat, values in data.items():
+        ax.plot(values, label=strat)
+
+    # Set the title and labels
+    ax.set_title(title)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+
+    # Set the x-axis ticks
+    ax.xaxis.set_major_locator(ticker.FixedLocator(range(len([25, 50, 100, 250, 500, 1000]))))
+    ax.xaxis.set_major_formatter(ticker.FixedFormatter([25, 50, 100, 250, 500, 1000]))
+
+    # Set the y-axis limits
+    ax.set_ylim(min_val, max_val)
+
+    # Add a legend
+    ax.legend()
+
+    # Save the plot to a file
+    fig.savefig(out)
 
 data = {}
 strategy = ["comb", "gradnorm", "separated"]
 tasks = ["multi1", "single1", "single2", "single3"]
 loss_functs = ["spo", "pfyl"]
+all_data = [] #gather all the data to be able to set a min and max for the y axis
 
 for loss in loss_functs:
     base_dir = "./res/3single1multi/" + loss
@@ -76,10 +92,13 @@ for loss in loss_functs:
                             for filename in os.listdir(folder_path):
                                 if re.match(filename_pattern, filename) and strat in filename and task in filename:
                                     filepath = os.path.join(folder_path, filename)
-                                    data[strat].append(get_average_regret(filepath))
+                                    average_regret = get_average_regret(filepath)
+                                    data[strat].append(average_regret)
+                                    all_data.append(average_regret)
+
 
         title = f"Average Relative Regret of the different strategies in a range of data sizes for task={task}"
         x_label = "Number of Data"
         y_label = "Average Relative Regret"
 
-        plot_data(data, title, x_label, y_label, str("./img/graphs/"+loss+"/"+task+".png")) # choose where to save them
+        plot_data(data, title, x_label, y_label, str("./img/graphs/"+loss+"/"+task+".png"), min(all_data), max(all_data)) # choose where to save them

@@ -135,14 +135,14 @@ def getOptModel(data_params, task_params, w):
     for i in range(n_single):
         new_w = zero_matrix
         new_w[i] = w[i]
-        capacities = list(map(lambda x: np.sum(x) * 0.66, new_w))
+        capacities = [20] * 5 # 10 = dimension
         optmodel = pyepo.model.grb.knapsackModel(new_w, capacities) # build model
         optmodels["SINGLE {}".format(i+1)] = optmodel
 
     for i in range(n_multi):
         new_w = w
         new_w[i] = np.zeros(num_item)
-        capacities = list(map(lambda x: np.sum(x) * 0.66, new_w))
+        capacities = [20] * 5 # 10 = dimension
         optmodel = pyepo.model.grb.knapsackModel(new_w, capacities) # build model
         optmodels["MULTI {}".format(i+1)] = optmodel
 

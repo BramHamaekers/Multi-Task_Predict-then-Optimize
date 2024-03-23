@@ -19,7 +19,7 @@ def read_data(filepath):
     with open(filepath) as f:
         data = pd.read_csv(f)
     value = re.match(filename_pattern, os.path.basename(filepath)).group("value")
-    return data["Relative Regret"], value # choose which column of data you want
+    return data["Regret"], value # choose which column of data you want
 
 def get_relative_regret(filename):
     with open(filename, 'r') as csvfile:
@@ -27,7 +27,7 @@ def get_relative_regret(filename):
         next(reader)
         relative_regrets = []
         for row in reader:
-            relative_regret = float(row['Relative Regret']) # choose which column of data you want
+            relative_regret = float(row['Regret']) # choose which column of data you want
             relative_regrets.append(relative_regret)
 
     return relative_regrets
@@ -39,7 +39,7 @@ def get_average_regret(filename):
         average = 0
         rows = 0
         for row in reader:
-            average += float(row['Relative Regret']) # choose which column of data you want
+            average += float(row['Regret']) # choose which column of data you want
             rows +=1
     return average/rows
 
@@ -97,8 +97,8 @@ for loss in loss_functs:
                                     all_data.append(average_regret)
 
 
-        title = f"Average Relative Regret of the different strategies in a range of data sizes for task={task}"
+        title = f"Average Regret of the different strategies in a range of data sizes for task={task}"
         x_label = "Number of Data"
-        y_label = "Average Relative Regret"
+        y_label = "Average Regret"
 
         plot_data(data, title, x_label, y_label, str("./img/graphs/"+loss+"/"+task+".png"), min(all_data), max(all_data)) # choose where to save them

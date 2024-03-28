@@ -403,7 +403,7 @@ if __name__ == "__main__":
                         help="GradNorm hyperparameter of restoring force")
     parser.add_argument("--proc",
                         type=int,
-                        default=3,
+                        default=6,
                         help="number of processor for optimization")
 
     # get configuration

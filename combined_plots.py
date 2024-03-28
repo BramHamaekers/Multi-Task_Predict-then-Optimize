@@ -6,8 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import re
 
-i_range = [30] # range of numer of items
-n_range = [25, 50, 100, 250, 500, 1000]  # range of data
+i_range = [5, 15, 30, 60, 100, 150] # range of numer of items
+n_range = [100]  # range of data
 p_range = [10]  # range of features
 deg_range = [4]  # range of degrees
 
@@ -57,8 +57,8 @@ def plot_data(data, title, x_label, y_label, out, min_val, max_val):
     ax.set_ylabel(y_label)
 
     # Set the x-axis ticks
-    ax.xaxis.set_major_locator(ticker.FixedLocator(range(len([25, 50, 100, 250, 500, 1000]))))
-    ax.xaxis.set_major_formatter(ticker.FixedFormatter([25, 50, 100, 250, 500, 1000]))
+    ax.xaxis.set_major_locator(ticker.FixedLocator(range(len([5, 15, 30, 60, 100, 150]))))
+    ax.xaxis.set_major_formatter(ticker.FixedFormatter([5, 15, 30, 60, 100, 150]))
 
     # Set the y-axis limits
     ax.set_ylim(min_val, max_val)
@@ -97,8 +97,8 @@ for loss in loss_functs:
                                     all_data.append(average_regret)
 
 
-        title = f"Average Regret of the different strategies in a range of data sizes for task={task}"
-        x_label = "Number of Data"
+        title = f"Average Regret of the different strategies in a range of amount of Items for task={task}"
+        x_label = "Number of Items"
         y_label = "Average Regret"
 
         plot_data(data, title, x_label, y_label, str("./img/graphs/"+loss+"/"+task+".png"), min(all_data), max(all_data)) # choose where to save them

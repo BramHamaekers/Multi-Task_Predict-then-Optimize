@@ -80,7 +80,7 @@ all_data = [] #gather all the data to be able to set a min and max for the y axi
 avg_data = {} # gather the average of the different tasks
 for loss in loss_functs:
     base_dir = "./res/3single1multi/" + loss
-    avg_data[loss] = {strat: [0, 0, 0, 0, 0, 0] for strat in strategy}
+    avg_data[loss] = {strat: [0] * (len(experiment)) for strat in strategy}
     for task in tasks:
         for strat in strategy:
             data[strat] = []

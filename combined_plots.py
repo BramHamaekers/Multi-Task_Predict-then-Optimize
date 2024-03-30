@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import re
 
 i_range = [30] # range of numer of items
-n_range = [25, 50, 100, 250, 500, 1000]  # range of data
+n_range = [25, 50, 100, 250, 500, 1000]  # range of data [25, 50, 100, 150, 200, 250, 300, 400, 500, 1000]
 p_range = [10]  # range of features
 deg_range = [4]  # range of degrees
 
@@ -80,7 +80,7 @@ all_data = [] #gather all the data to be able to set a min and max for the y axi
 avg_data = {} # gather the average of the different tasks
 for loss in loss_functs:
     base_dir = "./res/3single1multi/" + loss
-    avg_data[loss] = {strat: [0, 0, 0, 0, 0, 0] for strat in strategy}
+    avg_data[loss] = {strat: [0] * (len(experiment)) for strat in strategy}
     for task in tasks:
         for strat in strategy:
             data[strat] = []

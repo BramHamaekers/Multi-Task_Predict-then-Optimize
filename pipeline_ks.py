@@ -118,7 +118,7 @@ def genData(data_params):
     e = data_params["noise"] # noise half-width
     dim = 10 # Always 10 -> dimension 10 is upperbound on multidimensional knapsack problems
     # features and costs
-    w, x, c = pyepo.data.knapsack.genData(num_data+1000, num_feat, num_item, dim, deg=4, noise_width=e, seed=135)
+    w, x, c = pyepo.data.knapsack.genData(num_data+100+1000, num_feat, num_item, dim, deg, noise_width=e, seed=135)
     return w, x, c
 
 def getOptModel(data_params, task_params, w):
@@ -324,7 +324,7 @@ def genDataLoader(x, c, optmodels, train_params):
     Set data loader with solving optimal solutions
     """
     # data split
-    x_train, x_test, c_train, c_test = train_test_split(x, c, test_size=100, random_state=135)
+    x_train, x_test, c_train, c_test = train_test_split(x, c, test_size=1000, random_state=135)
     x_train, x_val, c_train, c_val = train_test_split(x_train, c_train, test_size=100, random_state=246)
     # dataset
     dataset_train, dataset_val, dataset_test = data.buildDataset(x_train, x_val,
@@ -350,7 +350,7 @@ if __name__ == "__main__":
                         help="number of items")
     parser.add_argument("--data",
                         type=int,
-                        default=100,
+                        default=50,
                         help="training data size")
     parser.add_argument("--feat",
                         type=int,

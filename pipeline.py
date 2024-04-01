@@ -322,7 +322,7 @@ if __name__ == "__main__":
                         help="number of nodes in graph")
     parser.add_argument("--data",
                         type=int,
-                        default=100,
+                        default=10,
                         help="training data size")
     parser.add_argument("--feat",
                         type=int,

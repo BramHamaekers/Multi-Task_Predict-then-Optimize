@@ -7,12 +7,12 @@ import matplotlib.pyplot as plt
 import re
 
 i_range = [30] # range of numer of items
-n_range = [25, 50, 100, 250, 500, 1000]  # range of data
+n_range = [100]  # range of data
 p_range = [10]  # range of features
-deg_range = [4]  # range of degrees
+deg_range = [1,2,3,4,5,6,7,8,9,10]  # range of degrees
 
 # TODO CHANGE THIS TO THE EXPERIMENT TO RUN
-experiment = n_range
+experiment = deg_range
 
 # Define the wildcard pattern for filenames
 filename_pattern = r"res_(?P<value>.*)\.csv"
@@ -48,16 +48,16 @@ def get_average_regret(filename):
 
 
 def plot_data(data, title, x_label, y_label, out, min_val, max_val):
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(12, 8))
 
     # Plot the data
     for strat, values in data.items():
         ax.plot(values, label=strat)
 
     # Set the title and labels
-    ax.set_title(title)
-    ax.set_xlabel(x_label)
-    ax.set_ylabel(y_label)
+    ax.set_title(title, fontsize=22)
+    ax.set_xlabel(x_label, fontsize=18)
+    ax.set_ylabel(y_label, fontsize=18)
 
     # Set the x-axis ticks
     ax.xaxis.set_major_locator(ticker.FixedLocator(range(len(experiment))))
@@ -65,9 +65,9 @@ def plot_data(data, title, x_label, y_label, out, min_val, max_val):
 
     # Set the y-axis limits
     ax.set_ylim(min_val, max_val)
-
+    
     # Add a legend
-    ax.legend()
+    ax.legend(fontsize=18)
 
     # Save the plot to a file
     fig.savefig(out)
@@ -102,9 +102,9 @@ for loss in loss_functs:
                                     #avg_data[loss][strat].append(average_regret)
 
         # Plot the 8 seperate graphs
-        title = f"Average Regret of the different strategies in a range of TODO CHANGE ME for task={task}"
-        x_label = "TODO CHANGE ME"
-        y_label = "Average Regret over different tasks"
+        title = f"Average regret of the different strategies in a range of polynomial degrees for task={task}"
+        x_label = "polynomial degree"
+        y_label = "Average regret over different tasks"
         # Sum the different values from the different tasks
         for strat in strategy: 
             for i in range(len(experiment)):
@@ -112,7 +112,7 @@ for loss in loss_functs:
         plot_data(data, title, x_label, y_label, str("./img/graphs/"+loss+"/"+task+".png"), min(all_data), max(all_data)) # choose where to save them
         
     # plot the average graph
-    avg_title = f"Average Regret in a range of TODO CHANGE ME with loss_function={loss}"
+    avg_title = f"Average regret in a range of polynomial degrees with loss_function={loss}"
 
     # calculate the average 
     for strat in strategy:

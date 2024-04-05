@@ -359,7 +359,7 @@ if __name__ == "__main__":
                         help="feature size")
     parser.add_argument("--deg",
                         type=int,
-                        default=4,
+                        default=10,
                         help="features polynomial degree")
     parser.add_argument("--noise",
                         type=float,
@@ -380,7 +380,7 @@ if __name__ == "__main__":
     parser.add_argument("--algo",
                         type=str,
                         choices=["spo", "pfyl"],
-                        default="spo",
+                        default="pfyl",
                         help="training algorithm")
     parser.add_argument("--iter",
                         type=int,
